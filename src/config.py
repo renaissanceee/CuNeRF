@@ -252,13 +252,13 @@ class Cfg:
         self.Update_lr()
         
     def Render(self, coord_batch, depths, is_train=False, R=None):
-        ans0 = self.sample_fn(coord_batch, depths, is_train=is_train, R=R)
-        raw0 = self.model(ans0['pts'])
-        out0 = self.render_fn(raw0, **ans0)
+        ans0 = self.sample_fn(coord_batch, depths, is_train=is_train, R=R) # ['pts', 'cnts', 'dx', 'dy', 'dz']
+        raw0 = self.model(ans0['pts']) # [1024, 64, 3]->NeRFMLP->[1024, 64, 2] , feed 64 points (per ray) for coarse_mlp, batch=1024
+        out0 = self.render_fn(raw0, **ans0) # raw0->cube_render->['rgb', 'weights', 'indices_rs']
         ans = self.imp_fn(**ans0, **out0, is_train=is_train)
-        raw = self.model_ft(ans['pts'])
+        raw = self.model_ft(ans['pts']) # [1024, 128, 2], feed 128 points (per ray) for finer_mlp
         out = self.render_fn(raw, **ans)
-        return out['rgb'], out0['rgb']
+        return out['rgb'], out0['rgb'] # 1024 preds in a batch
     
     def evaluation(self, pds):
         gts = self.evalset.getLabel()
