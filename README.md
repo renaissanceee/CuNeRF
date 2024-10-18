@@ -44,6 +44,8 @@ apt install ffmpeg -y
 ## 2) Training CuNeRF for medical volumes
 ```bash
 python run.py <expname> --cfg <config file> --scale <SR scale> --mode train --file <filepath>
+
+python run.py msd_brain_tumour --cfg configs/example.yaml --modality T1w --scale 2 --mode train --file dataset/MSD/Task01_BrainTumour/imagesTr/BRATS_001.nii.gz --save_map --resume
 ```
 See *example_train.sh* for details, we also provide an example config file in the *configs* dir.
 
@@ -51,6 +53,8 @@ See *example_train.sh* for details, we also provide an example config file in th
 Render slices at arbitrary positions (*zpos*: $-0.1$ ~ $0.1$), scales ($1$.x ~ $2$.x) and viewpoints (*angles*: $0$ ~ $360$ degrees) with an rotation axis $[1,1,0]$:
 ```bash
 python run.py <expname> --cfg <config file> --mode test --file <filepath> --scales 1 2 --zpos -0.1 0.1 --angles 0 360 --axis 1 1 0 --asteps 45 
+
+python run.py msd_brain_tumour --cfg configs/example.yaml --mode test --file dataset/MSD/Task01_BrainTumour/imagesTr/BRATS_001.nii.gz --resume_type psnr --axis 1 1 0 --asteps 45 --save_map --is_details --is_gif --is_video --modality T1w --scales 1.5 --zpos -0.05 --angles 45
 ```
 See *example_test.sh* for details.
 
