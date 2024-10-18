@@ -61,7 +61,7 @@ class Cfg:
                 self.evalset = getattr(dataset, name)(mode='eval', **cfg['eval'])
 
         def load_dataloader(self, cfg):
-            mode = cfg.pop('mode')
+            mode = cfg.pop('mode') 
             setattr(self, f'{mode}loader', DataLoader(getattr(self, f'{mode}set'), **cfg[mode]))
             if mode == 'train':
                 self.evalloader = DataLoader(self.evalset, **cfg['eval'])

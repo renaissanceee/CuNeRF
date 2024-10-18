@@ -1,0 +1,10 @@
+*.pyc
+.vscode
+build
+tensorboard_3d
+screenshots
+.idea
+dataset
+output
+env
+ckpt

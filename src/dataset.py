@@ -54,8 +54,8 @@ class Base(Dataset):
     
     def sampling(self, coords, xy_inds, z_coord, pad):
         xy_coords = coords[xy_inds[:, 0] + pad, xy_inds[:, 1] + pad]
-        LR_coords = torch.cat([coords[xy_inds[:, 0] + pad, xy_inds[:, 1] + ind][:, 0:1] for ind in [0, pad * 2]], 1)
-        TB_coords = torch.cat([coords[xy_inds[:, 0] + ind, xy_inds[:, 1] + pad][:, 1:2] for ind in [0, pad * 2]], 1)
+        LR_coords = torch.cat([coords[xy_inds[:, 0] + pad, xy_inds[:, 1] + ind][:, 0:1] for ind in [0, pad * 2]], 1) # left right
+        TB_coords = torch.cat([coords[xy_inds[:, 0] + ind, xy_inds[:, 1] + pad][:, 1:2] for ind in [0, pad * 2]], 1) # top bottom
         coords = torch.cat([xy_coords, torch.full((xy_coords.shape[0], 1), z_coord), LR_coords, TB_coords], 1)
         return coords
 
@@ -64,6 +64,7 @@ class Base(Dataset):
         coords = torch.stack([i, j], -1)
 
         if self.mode == 'train':
+            # downsample for self.H // self.scale points --> down_rate = scale (eg. 2,3, ..)
             xy_inds = torch.meshgrid(torch.linspace(0, self.H - 1, self.H // self.scale), torch.linspace(0, self.W - 1, self.W // self.scale))
             z_ind = index // self.scale * self.scale
 
@@ -79,7 +80,7 @@ class Base(Dataset):
         head, z_coord, tail = [self.z_trans(z) for z in [z_ind - self.pad, z_ind, z_ind + self.pad]]
         coords = self.sampling(coords, xy_inds, z_coord, self.pad)
         
-        data = self.data[z_ind, xy_inds[:, 0], xy_inds[:, 1]]
+        data = self.data[z_ind, xy_inds[:, 0], xy_inds[:, 1]] # downsampled data
         return (data, coords, (np.float32(head), np.float32(tail))) if self.mode == 'train' else (coords, (np.float32(head), np.float32(tail)))
 
     def multi_view_and_scale_sampling(self, zpos, angle, scale):

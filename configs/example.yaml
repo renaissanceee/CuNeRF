@@ -29,9 +29,9 @@ axis      : [0, 1, 1]
 cam_scale : 1.5
 
 # path
-result_path : save
-save_path   : save
-log_path    : save
+result_path : output # output/msd_brain_tumour
+save_path   : output # output/msd_brain_tumour
+log_path    : output # output/msd_brain_tumour
 
 loss : 
   name : Adaptive_MSE_LOSS
@@ -86,6 +86,7 @@ dataset :
     zpos      : $zpos
     cam_scale : $cam_scale
     asteps    : $asteps
+    modality  : $modality
 
 dataloader :
   mode : $mode
