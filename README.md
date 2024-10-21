@@ -9,14 +9,13 @@ The source code for our paper "**[CuNeRF: Cube-Based Neural Radiance Field for Z
 <img width="1148" alt="framework" src="assets/cunerf.png">
 </div>
 
+## Download dataset
 
-## Abstract
+```bash
+MSD: https://drive.google.com/drive/folders/1HqEgzS8BV2c7xYNrZdEAnrHk7osJJ--2
+KiTS19: https://github.com/neheller/kits19
+```
 
-Medical image arbitrary-scale super-resolution (MIASSR) has recently gained widespread attention, aiming to supersample medical volumes at arbitrary scales via a single model. However, existing MIASSR methods face two major limitations: <b>(i)</b> reliance on high-resolution (HR) volumes and <b>(ii)</b> limited generalization ability, which restricts their applications in various scenarios. To overcome these limitations, we propose Cube-based Neural Radiance Field (CuNeRF), a zero-shot MIASSR framework that is able to yield medical images at arbitrary scales and free viewpoints in a continuous domain. Unlike existing MISR methods that only fit the mapping between low-resolution (LR) and HR volumes, <b>CuNeRF</b> focuses on building a continuous volumetric representation from each LR volume without the knowledge from the corresponding HR one. This is achieved by the proposed differentiable modules: cube-based sampling, isotropic volume rendering, and cube-based hierarchical rendering. Through extensive experiments on magnetic resource imaging (MRI) and computed tomography (CT) modalities, we demonstrate that <b>CuNeRF</b> can synthesize high-quality SR medical images, which outperforms state-of-the-art MISR methods, achieving better visual verisimilitude and fewer objectionable artifacts. Compared to existing MISR methods, our <b>CuNeRF</b> is more applicable in practice.
-
-<div align=center>
-<img width="1148" alt="framework" src="assets/framework.png">
-</div>
 
 ## 1) Get start
 
